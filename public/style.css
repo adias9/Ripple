@@ -1,6 +1,6 @@
 .container {
-  width: 100%;
   height: 99%;
+  width: 100%;
   position: relative;
 }
 
@@ -9,7 +9,6 @@
   border-radius: 3px;
   background-color: #dfe3ea;
   border: 1px solid #CCC;
-  overflow: auto;
   padding: 0px;
   font-size: 18px;
   line-height: 22px;
@@ -20,7 +19,6 @@
   background-color: #EEE;
   background: -webkit-linear-gradient(top, #EEEEEE, #DDDDDD);
   background: linear-gradient(to bottom, #EEEEEE, #DDDDDD);
-  box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.9), 0px 1px 2px rgba(0, 0, 0, 0.1);
   border-radius: 3px 3px 0px 0px;
   border-bottom: 1px solid #CCC;
   line-height: 24px;
@@ -75,8 +73,7 @@
 .example-chat ul {
   list-style: none;
   margin: 0px;
-  padding: 20px;
-  height: 80%;
+  padding: 30px 20px 20px 20px;
   overflow: auto;
 }
 
@@ -103,4 +100,45 @@
 .example-chat footer input {
   border: 1px solid #ced3db;
   height: 40px;
+}
+
+.channel-li {
+  border: 3px solid #ced3db;
+  padding: 5px;
+  cursor: pointer;
+}
+
+#main-chat {
+  height: 90%;
+}
+
+#channel-column {
+  float: left;
+  width: 19%;
+  height: 95%;
+  border-right: 5px solid #ced3db;
+  overflow: auto;
+}
+
+#message-column {
+  float: left;
+  width: 80%;
+  height: 95%;
+  overflow: auto;
+}
+
+#channels-header {
+  position: fixed;
+  width: 18.8%;
+}
+
+#messages-header {
+  position: fixed;
+  width: 79.7%;
+}
+
+#add-channel-btn {
+  float: right;
+  padding: 5px 5px 5px 0px;
+  cursor: pointer;
 }
