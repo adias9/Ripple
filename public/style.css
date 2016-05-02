@@ -91,6 +91,10 @@
   font-size: 14px;
 }
 
+.selected {
+  background-color: #00BFA5;
+}
+
 #main-chat {
   height: 92%;
 }

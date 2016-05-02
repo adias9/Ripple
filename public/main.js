@@ -29,7 +29,6 @@ function addMessageCallback() {
     var username = data.name || "Anonymous";
     var message = data.text;
     var timestamp = data.timestamp;
-
     var date = new Date(timestamp).toLocaleTimeString();
 
     // Create elements and sanitize text
@@ -68,17 +67,20 @@ channelsRef.on('child_added', function(snapshot) {
   // Get data
   var data = snapshot.val();
   var channelName = data.channelName;
+  var selected = false;
 
   if (currentChannel === undefined) {
-    currentChannel = "# " + channelName;
+    currentChannel = "~ " + channelName;
     messageHeader.text(currentChannel);
     messagesRef = snapshot.ref();
     addMessageCallback();
+    selected = true;
   }
 
   // Create element and sanitize text
   var channelElement = $("<li class='channel-li'>");
-  channelElement.text("# " + channelName);
+  channelElement.text("~ " + channelName);
+  if (selected) channelElement.addClass('selected');
 
   // Add message
   channelList.append(channelElement);
@@ -87,7 +89,7 @@ channelsRef.on('child_added', function(snapshot) {
 // Event listener for handling adding channels
 addChannelBtn.click(function() {
   swal({
-    title: 'Enter a stream name:',
+    html: '<h3>Enter a stream name:</h3>',
     input: 'text',
     showCancelButton: true,
     inputValidator: function(value) {
@@ -108,7 +110,7 @@ addChannelBtn.click(function() {
       });
       // Add a new channel and switch to it
       messagesRef = channelsRef.push({ channelName: result });
-      currentChannel = "# " + result;
+      currentChannel = "~ " + result;
       messageHeader.text(currentChannel);
       messageList.empty();
       addMessageCallback();
@@ -118,9 +120,17 @@ addChannelBtn.click(function() {
 
 // Add event listeners to each channel button
 channelList.delegate('li', 'click', function() {
-  currentChannel = $(this).text(); // chop off the # in the beginning
+  // Change color of selected channel
+  $('.channel-li').each(function() {
+    $(this).removeClass('selected');
+  });
+  $(this).addClass('selected');
+
+  // Set current channel, empty message list
+  currentChannel = $(this).text(); // chop off the ~ in the beginning
   messageHeader.text(currentChannel);
   messageList.empty();
+
   // Load up the messages corresponding to the channel that was clicked
   channelsRef.orderByChild('channelName').equalTo(currentChannel.substring(2)).on("child_added", function(snapshot) {
     messagesRef = snapshot.ref();
