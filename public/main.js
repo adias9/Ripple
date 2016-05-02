@@ -1,5 +1,5 @@
 // Create a reference to Firebase
-var channelsRef = new Firebase('https://burning-fire-8160.firebaseio.com/');
+var channelsRef = new Firebase('https://burning-fire-8160.firebaseio.com/channels/');
 var messagesRef = undefined;
 
 // Current channel
@@ -61,7 +61,7 @@ channelsRef.on('child_added', function(snapshot) {
   var channelName = data.channelName;
 
   if (currentChannel === undefined) {
-    currentChannel = channelName;
+    currentChannel = "# " + channelName;
     messageHeader.text(currentChannel);
     messagesRef = snapshot.ref();
     addMessageCallback();
@@ -69,12 +69,13 @@ channelsRef.on('child_added', function(snapshot) {
 
   // Create element and sanitize text
   var channelElement = $("<li class='channel-li'>");
-  channelElement.text(channelName);
+  channelElement.text("# " + channelName);
 
   // Add message
   channelList.append(channelElement);
 });
 
+// Event listener for handling adding channels
 addChannelBtn.click(function() {
   swal({
     title: 'Enter a stream name:',
@@ -96,8 +97,9 @@ addChannelBtn.click(function() {
         html: 'You have successfully created the stream!',
         timer: 1000
       });
+      // Add a new channel and switch to it
       messagesRef = channelsRef.push({ channelName: result });
-      currentChannel = result;
+      currentChannel = "# " + result;
       messageHeader.text(currentChannel);
       messageList.empty();
       addMessageCallback();
@@ -105,11 +107,13 @@ addChannelBtn.click(function() {
   });
 });
 
+// Add event listeners to each channel button
 channelList.delegate('li', 'click', function() {
-  currentChannel = $(this).text();
+  currentChannel = $(this).text(); // chop off the # in the beginning
   messageHeader.text(currentChannel);
   messageList.empty();
-  channelsRef.orderByChild('channelName').equalTo(currentChannel).on("child_added", function(snapshot) {
+  // Load up the messages corresponding to the channel that was clicked
+  channelsRef.orderByChild('channelName').equalTo(currentChannel.substring(2)).on("child_added", function(snapshot) {
     messagesRef = snapshot.ref();
     messagesRef.off("child_added");
     addMessageCallback();
