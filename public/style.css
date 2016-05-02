@@ -35,10 +35,6 @@
   outline: none;
 }
 
-.example-chat .example-chat-logout {
-  text-align: right;
-}
-
 .example-chat .example-chat-toolbar {
   background-color: #FFF;
   padding: 10px;
@@ -96,13 +92,13 @@
 }
 
 #main-chat {
-  height: 92%;
+  height: 100%;
 }
 
 #channel-column {
   float: left;
   width: 19%;
-  height: 95%;
+  height: 100%;
   overflow: auto;
   background-color: #448AFF;
 }
@@ -110,7 +106,7 @@
 #message-column {
   float: left;
   width: 81%;
-  height: 95%;
+  height: 100%;
   overflow: auto;
 }
 
@@ -121,17 +117,44 @@
   color: #fff;
 }
 
-#messages-header {
+#message-header-div {
   position: fixed;
-  width: 78.7%;
-  background-color: #fff;
+  width: 80.1%;
   color: #333;
   border-bottom: 1px solid #CCC;
   border-top: 1px solid #CCC;
 }
 
+#messages-header {
+  color: #333;
+  display: inline-block;
+  background-color: #fff;
+}
+
 #add-channel-btn {
   float: right;
   padding: 5px 15px 5px 0px;
+  cursor: pointer;
+}
+
+#userLogOut {
+  float: right;
+  display: inline-block;
+  border: 1px solid #fff;
+  padding: 5px;
+  margin: 5px;
+  cursor: pointer;
+  background-color: #448AFF;
+  text-align: right;
+  color: #fff;
+  visibility: hidden;
+}
+
+#linkedin-login-btn {
+  float: right;
+  display: inline-block;
+  padding: 5px;
+  margin: 5px;
+  text-align: right;
   cursor: pointer;
 }

@@ -14,9 +14,10 @@ var addChannelBtn = $('#add-channel-btn');
 var messageList = $('#example-messages');
 var channelList = $('#channels');
 
+var linkedInButton = $('#linkedin-login-btn');
 var logOutButton = $('#userLogOut');
 
-//Taking from LinkedIn
+// Taking from LinkedIn
 var inputUsername = inputUsername;
 
 function addMessageCallback() {
@@ -141,5 +142,12 @@ channelList.delegate('li', 'click', function() {
 
 logOutButton.click(function() {
   IN.User.logout();
+  logOutButton.css('visibility', 'hidden');
+  linkedInButton.css('display', 'inline');
+  inputUsername = undefined;
+  swal({
+    type: 'success',
+    html: 'You have successfully logged out!',
+    timer: 1000
+  });
 });
-
