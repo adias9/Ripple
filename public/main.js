@@ -7,13 +7,17 @@ var currentChannel = undefined;
 
 // Register DOM elements
 var messageField = $('#messageInput');
-var nameField = $('#nameInput');
 var messageHeader = $('#messages-header');
 var messageCol = $('#message-column');
 var addChannelBtn = $('#add-channel-btn');
 
 var messageList = $('#example-messages');
 var channelList = $('#channels');
+
+var logOutButton = $('#userLogOut');
+
+//Taking from LinkedIn
+var inputUsername = inputUsername;
 
 function addMessageCallback() {
   // Add a callback that is triggered for each chat message.
@@ -48,7 +52,7 @@ function addMessageCallback() {
 messageField.keypress(function(e) {
   if (e.keyCode == 13) {
     // Field values
-    var username = nameField.val();
+    var username = inputUsername;
     var message = messageField.val();
 
     // Save data to Firebase and empty field
@@ -124,3 +128,8 @@ channelList.delegate('li', 'click', function() {
     addMessageCallback();
   });
 });
+
+logOutButton.click(function() {
+  IN.User.logout();
+});
+
