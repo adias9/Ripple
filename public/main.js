@@ -8,6 +8,7 @@ var currentChannel = undefined;
 // Register DOM elements
 var messageField = $('#messageInput');
 var nameField = $('#nameInput');
+var messageHeader = $('#messages-header');
 var messageCol = $('#message-column');
 var addChannelBtn = $('#add-channel-btn');
 
@@ -61,6 +62,7 @@ channelsRef.on('child_added', function(snapshot) {
 
   if (currentChannel === undefined) {
     currentChannel = channelName;
+    messageHeader.text(currentChannel);
     messagesRef = snapshot.ref();
     addMessageCallback();
   }
@@ -75,7 +77,7 @@ channelsRef.on('child_added', function(snapshot) {
 
 addChannelBtn.click(function() {
   swal({
-    title: 'Enter a channel name:',
+    title: 'Enter a stream name:',
     input: 'text',
     showCancelButton: true,
     inputValidator: function(value) {
@@ -83,7 +85,7 @@ addChannelBtn.click(function() {
         if (value) {
           resolve();
         } else {
-          reject('The channel name cannot be blank.');
+          reject('The stream name cannot be blank.');
         }
       });
     }
@@ -91,10 +93,12 @@ addChannelBtn.click(function() {
     if (result) {
       swal({
         type: 'success',
-        html: 'You have successfully created the channel!',
+        html: 'You have successfully created the stream!',
         timer: 1000
       });
       messagesRef = channelsRef.push({ channelName: result });
+      currentChannel = result;
+      messageHeader.text(currentChannel);
       messageList.empty();
       addMessageCallback();
     }
@@ -103,6 +107,7 @@ addChannelBtn.click(function() {
 
 channelList.delegate('li', 'click', function() {
   currentChannel = $(this).text();
+  messageHeader.text(currentChannel);
   messageList.empty();
   channelsRef.orderByChild('channelName').equalTo(currentChannel).on("child_added", function(snapshot) {
     messagesRef = snapshot.ref();
