@@ -107,6 +107,10 @@
   padding-top: 50px;
 }
 
+.message-date {
+  font-size: 14px;
+}
+
 #main-chat {
   height: 92%;
 }

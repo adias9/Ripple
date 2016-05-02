@@ -24,12 +24,17 @@ function addMessageCallback() {
 
     var username = data.name || "Anonymous";
     var message = data.text;
+    var timestamp = data.timestamp;
+
+    var date = new Date(timestamp).toLocaleTimeString();
 
     // Create elements and sanitize text
-    var messageElement = $("<li>");
+    var messageElement = $("<li></li>");
     var nameElement = $("<strong class='example-chat-username'></strong>");
+    var dateElement = $("<em class='message-date'></em>");
     nameElement.text(username);
-    messageElement.text(message).prepend(nameElement);
+    dateElement.text(date);
+    messageElement.text(message).prepend("<br>").prepend(dateElement).prepend(nameElement);
 
     // Add message
     messageList.append(messageElement);
@@ -48,7 +53,7 @@ messageField.keypress(function(e) {
 
     // Save data to Firebase and empty field
     if (message !== '') {
-      messagesRef.push({ name: username, text: message });
+      messagesRef.push({ name: username, text: message, timestamp: Firebase.ServerValue.TIMESTAMP });
       messageField.val('');
     }
   }
