@@ -1,9 +1,11 @@
 // Create a reference to Firebase
 var channelsRef = new Firebase('https://burning-fire-8160.firebaseio.com/channels/');
+var usersRef = new Firebase('https://burning-fire-8160.firebaseio.com/users/');
 var messagesRef = undefined;
 
 // Current channel
 var currentChannel = undefined;
+var currentRep = -1;
 
 // Register DOM elements
 var messageField = $('#messageInput');
@@ -110,7 +112,7 @@ addChannelBtn.click(function() {
         timer: 1000
       });
       // Add a new channel and switch to it
-      messagesRef = channelsRef.push({ channelName: result });
+      messagesRef = channelsRef.push({ channelName: result, repNeeded: Math.floor(Math.random() * 100) });
       currentChannel = "~ " + result;
       messageHeader.text(currentChannel);
       messageList.empty();
@@ -121,6 +123,15 @@ addChannelBtn.click(function() {
 
 // Add event listeners to each channel button
 channelList.delegate('li', 'click', function() {
+  channelRep = Math.floor(Math.random() * 100);
+  if (currentRep < channelRep && $(this).text().substring(2) !== 'Startup Founders') {
+    swal({
+      type: 'error',
+      html: 'You do not have enough reputation to join the ' + $(this).text().substring(2) + ' channel!'
+    });
+    return;
+  }
+
   // Change color of selected channel
   $('.channel-li').each(function() {
     $(this).removeClass('selected');
@@ -128,7 +139,7 @@ channelList.delegate('li', 'click', function() {
   $(this).addClass('selected');
 
   // Set current channel, empty message list
-  currentChannel = $(this).text(); // chop off the ~ in the beginning
+  currentChannel = $(this).text();
   messageHeader.text(currentChannel);
   messageList.empty();
 
@@ -145,6 +156,7 @@ logOutButton.click(function() {
   logOutButton.css('visibility', 'hidden');
   linkedInButton.css('display', 'inline');
   inputUsername = undefined;
+  currentRep = -1;
   swal({
     type: 'success',
     html: 'You have successfully logged out!',
