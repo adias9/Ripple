@@ -81,6 +81,7 @@
 
 .example-chat .ul-column {
   padding-top: 50px;
+  padding-bottom: 50px;
 }
 
 .message-date {
@@ -119,14 +120,16 @@
 
 #message-header-div {
   position: fixed;
-  width: 80.1%;
-  color: #333;
+  width: 80%;
   border-bottom: 1px solid #CCC;
   border-top: 1px solid #CCC;
+  color: #333;
+  display: inline-block;
 }
 
 #messages-header {
   color: #333;
+  width: 83%;
   display: inline-block;
   background-color: #fff;
 }
@@ -152,7 +155,7 @@
 
 #linkedin-login-btn {
   float: right;
-  display: inline-block;
+  position: fixed;
   padding: 5px;
   margin: 5px;
   text-align: right;
