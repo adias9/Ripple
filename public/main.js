@@ -5,13 +5,13 @@ var messagesRef = undefined;
 
 // Current channel
 var currentChannel = undefined;
-var currentRep = -1;
 
 // Register DOM elements
 var messageField = $('#messageInput');
 var messageHeader = $('#messages-header');
 var messageCol = $('#message-column');
 var addChannelBtn = $('#add-channel-btn');
+//var upvoteBtn = $('#upvote-btn');
 
 var messageList = $('#example-messages');
 var channelList = $('#channels');
@@ -32,15 +32,20 @@ function addMessageCallback() {
     var username = data.name || "Anonymous";
     var message = data.text;
     var timestamp = data.timestamp;
+//    var upvotes = data.upvotes;
     var date = new Date(timestamp).toLocaleTimeString();
 
     // Create elements and sanitize text
     var messageElement = $("<li></li>");
     var nameElement = $("<strong class='example-chat-username'></strong>");
     var dateElement = $("<em class='message-date'></em>");
+//    var numElement = $("<p id='upvote-num'></p>");
+//    var upvoteElement = $("<i id='upvote-btn' class='fa fa-angle-up'></i>");
     nameElement.text(username);
     dateElement.text(date);
+//    numElement.text(upvotes);
     messageElement.text(message).prepend("<br>").prepend(dateElement).prepend(nameElement);
+//    messageElement.append(numElement).append(upvoteElement);
 
     // Add message
     messageList.append(messageElement);
@@ -59,7 +64,7 @@ messageField.keypress(function(e) {
 
     // Save data to Firebase and empty field
     if (message !== '') {
-      messagesRef.push({ name: username, text: message, timestamp: Firebase.ServerValue.TIMESTAMP });
+      messagesRef.push({ name: username, text: message, timestamp: Firebase.ServerValue.TIMESTAMP }); //, upvotes: 0
       messageField.val('');
     }
   }
@@ -98,7 +103,11 @@ addChannelBtn.click(function() {
     inputValidator: function(value) {
       return new Promise(function(resolve, reject) {
         if (value) {
-          resolve();
+          if (value.length < 20) {
+            resolve();
+          } else {
+            reject('The name can\'t be longer than 20 characters.');
+          }
         } else {
           reject('The stream name cannot be blank.');
         }
@@ -112,7 +121,7 @@ addChannelBtn.click(function() {
         timer: 1000
       });
       // Add a new channel and switch to it
-      messagesRef = channelsRef.push({ channelName: result, repNeeded: Math.floor(Math.random() * 100) });
+      messagesRef = channelsRef.push({ channelName: result });
       currentChannel = "~ " + result;
       messageHeader.text(currentChannel);
       messageList.empty();
@@ -123,14 +132,6 @@ addChannelBtn.click(function() {
 
 // Add event listeners to each channel button
 channelList.delegate('li', 'click', function() {
-  channelRep = Math.floor(Math.random() * 100);
-  if (currentRep < channelRep && $(this).text().substring(2) !== 'Startup Founders') {
-    swal({
-      type: 'error',
-      html: 'You do not have enough reputation to join the ' + $(this).text().substring(2) + ' channel!'
-    });
-    return;
-  }
 
   // Change color of selected channel
   $('.channel-li').each(function() {
@@ -156,7 +157,6 @@ logOutButton.click(function() {
   logOutButton.css('visibility', 'hidden');
   linkedInButton.css('display', 'inline');
   inputUsername = undefined;
-  currentRep = -1;
   swal({
     type: 'success',
     html: 'You have successfully logged out!',

@@ -160,4 +160,12 @@
   margin: 5px;
   text-align: right;
   cursor: pointer;
+
+#upvote-btn {
+  float: right;
+  cursor: pointer;
+}
+
+#upvote-num {
+  float: right;
 }
