@@ -17,6 +17,7 @@ var messageList = $('#example-messages');
 var channelList = $('#channels');
 
 var linkedInButton = $('#linkedin-login-btn');
+var facebookButton = $('#facebook-login-btn');
 var logOutButton = $('#userLogOut');
 
 // Taking from LinkedIn
@@ -153,9 +154,11 @@ channelList.delegate('li', 'click', function() {
 });
 
 logOutButton.click(function() {
-  IN.User.logout();
+  FB.logout(function(response) {});
+  //IN.User.logout();
   logOutButton.css('visibility', 'hidden');
-  linkedInButton.css('display', 'inline');
+  facebookButton.css('display', 'inline');
+  //linkedInButton.css('display', 'inline');
   inputUsername = "";
   swal({
     type: 'success',

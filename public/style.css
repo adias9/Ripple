@@ -105,7 +105,7 @@
 }
 
 #message-column {
-  float: left;
+  float: right;
   width: 81%;
   height: 100%;
   overflow: auto;
@@ -125,11 +125,12 @@
   border-top: 1px solid #CCC;
   color: #333;
   display: inline-block;
+  background-color: #fff;
 }
 
 #messages-header {
   color: #333;
-  width: 83%;
+  width: 50%;
   display: inline-block;
   background-color: #fff;
 }
@@ -153,13 +154,14 @@
   visibility: hidden;
 }
 
-#linkedin-login-btn {
+#facebook-login-btn {
   float: right;
-  position: fixed;
+  position: relative;
   padding: 5px;
   margin: 5px;
   text-align: right;
   cursor: pointer;
+}
 
 #upvote-btn {
   float: right;

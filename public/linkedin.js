@@ -1,4 +1,4 @@
-var inputUsername = "";
+//var inputUsername = "";
 
 function liAuth() {
   IN.User.authorize(function() {
