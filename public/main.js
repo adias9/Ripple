@@ -156,7 +156,7 @@ logOutButton.click(function() {
   IN.User.logout();
   logOutButton.css('visibility', 'hidden');
   linkedInButton.css('display', 'inline');
-  inputUsername = undefined;
+  inputUsername = "";
   swal({
     type: 'success',
     html: 'You have successfully logged out!',

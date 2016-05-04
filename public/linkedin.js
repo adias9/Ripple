@@ -1,4 +1,4 @@
-var inputUsername = undefined;
+var inputUsername = "";
 
 function liAuth() {
   IN.User.authorize(function() {
@@ -16,18 +16,35 @@ function getProfileData() {
   IN.API.Profile("me").fields("firstName", "lastName", "id").result(onSuccess).error(onError);
 }
 
+// Decide whether it s a new user and save them
+// function userExistsCallback(member, exists) {
+//   if (exists) {
+//     usersRef.push({ id: member.id, firstName: member.firstName, lastName: member.lastName });
+//   } 
+// }
+
 // Handle the successful return from the API call
 function onSuccess(data) {
+//  var exists = false;
+
   member = data.values[0];
   inputUsername = member.firstName + " " + member.lastName;
   linkedInButton.css('display', 'none');
   logOutButton.css('visibility', 'visible');
-  usersRef.orderByChild('id').equalTo(member.id).on("child_added", function(snapshot) {
-    currentRep = snapshot.val().rep;
-  });
-  var randRep = Math.floor(Math.random() * 100);
-  usersRef.push({ id: member.id, firstName: member.firstName, lastName: member.lastName, rep: randRep });
-  currentRep = randRep;
+  
+
+  // usersRef.once("value", function(snapshot) {
+  //   snapshot.forEach(function(childSnapshot) {
+  //     console.log("hello");
+  //     console.log(childSnapshot.val().id);
+  //     exists = (childSnapshot.val().id === member.id);
+  //     if (exists) {
+  //       return true;
+  //     }
+  //   });
+  // });
+  
+  // userExistsCallback(member, exists);   
 }
 
 // Handle an error response from the API call
